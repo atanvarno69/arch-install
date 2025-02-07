@@ -1,0 +1,45 @@
+{
+    "additional-repositories": [],
+    "archinstall-language": "English",
+    "audio_config": {
+        "audio": "pipewire"
+    },
+    "bootloader": "Systemd-boot",
+    "config_version": "3.0.2",
+    "disk_config": {
+        "config_type": "pre_mounted_config",
+        "mountpoint": "/mnt"
+    },
+    "disk_encryption": null,
+    "hostname": "hostname",
+    "kernels": [
+        "linux-zen"
+    ],
+    "locale_config": {
+        "kb_layout": "uk",
+        "sys_enc": "UTF-8",
+        "sys_lang": "en_GB"
+    },
+    "mirror_config": null,
+    "network_config": {
+        "type": "nm"
+    },
+    "ntp": true,
+    "packages": [
+    ],
+    "parallel downloads": 4,
+    "profile_config": {
+        "gfx_driver": null,
+        "greeter": null,
+        "profile": {
+            "custom_settings": {},
+            "details": [],
+            "main": "Minimal"
+        }
+    },
+    "save_config": null,
+    "swap": true,
+    "timezone": "Europe/London",
+    "uki": false,
+    "version": "3.0.2"
+}
