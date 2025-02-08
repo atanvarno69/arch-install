@@ -25,8 +25,7 @@
         "type": "nm"
     },
     "ntp": true,
-    "packages": [
-    ],
+    "packages": ["linux-zen-headers","amd-ucode","base-devel","dosfstools","exfatprogs","e2fsprogs","sof-firmware","mesa","vulkan-radeon","man-db","man-pages","texinfo","sudo","openssh","neovim","archlinux-keyring","gnupg","sudo","openssh","less","diffutils"],
     "parallel downloads": 4,
     "profile_config": {
         "gfx_driver": null,
