@@ -1,0 +1,63 @@
+{
+"additional-repositories": [],
+    "archinstall-language": "English",
+    "audio_config": {
+        "audio": "pipewire"
+    },
+    "bootloader": "Systemd-boot",
+    "config_version": "3.0.2",
+    "disk_config": {
+        "config_type": "pre_mounted_config",
+        "mountpoint": "/mnt"
+    },
+    "disk_encryption": null,
+    "hostname": "hostname",
+    "kernels": [
+        "linux-zen"
+    ],
+    "locale_config": {
+        "kb_layout": "uk",
+        "sys_enc": "UTF-8",
+        "sys_lang": "en_GB"
+    },
+    "mirror_config": null,
+    "network_config": {
+        "type": "nm"
+    },
+    "ntp": true,
+    "packages": [
+        "amd-ucode",
+        "archlinux-keyring",
+        "base-devel",
+        "e2fsprogs",
+        "git",
+        "gnupg",
+        "jq",
+        "less",
+        "linux-firmware",
+        "linux-zen-headers",
+        "man-db",
+        "man-pages",
+        "mesa",
+        "neovim",
+        "openssh",
+        "sof-firmware",
+        "sudo",
+        "vulkan-radeon"
+    ],
+    "parallel downloads": 4,
+    "profile_config": {
+        "gfx_driver": null,
+        "greeter": null,
+        "profile": {
+            "custom_settings": {},
+            "details": [],
+            "main": "Minimal"
+        }
+    },
+    "save_config": null,
+    "swap": true,
+    "timezone": "Europe/London",
+    "uki": false,
+    "version": "3.0.2"
+}
