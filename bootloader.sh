@@ -50,19 +50,19 @@ mv /boot/loader/loader.conf /efi/loader/loader.conf
 # XBOOTLOADER partition firmware
 pacman -S --asexplicit --needed --noconfirm efifs
 
-if [ pacman -Q efifs >/dev/null 2>&1 ]; then
+if pacman -Q efifs >/dev/null 2>&1; then
     packages=$(pacman -Qq)
     firmware=''
-    [ echo "${packages}" | grep -s -q 'btrfs-progs' ] && firmware="${firmware} /usr/lib/efifs-x64/btrfs_x64.efi"
-    [ echo "${packages}" | grep -s -q 'exfatprogs' ] && firmware="${firmware} /usr/lib/efifs-x64/exfat_x64.efi"
-    [ echo "${packages}" | grep -s -q 'f2fs-tools' ] && firmware="${firmware} /usr/lib/efifs-x64/f2fs_x64.efi"
-    [ echo "${packages}" | grep -s -q 'e2fsprogs' ] && firmware="${firmware} /usr/lib/efifs-x64/ext2_x64.efi"
-    [ echo "${packages}" | grep -s -q 'jfsutils' ] && firmware="${firmware} /usr/lib/efifs-x64/jfs_x64.efi"
-    [ echo "${packages}" | grep -s -q 'nilfs-utils' ] && firmware="${firmware} /usr/lib/efifs-x64/nilfs2_x64.efi"
-    [ echo "${packages}" | grep -s -q 'ntfs-3g' ] && firmware="${firmware} /usr/lib/efifs-x64/ntfs_x64.efi"
-    [ echo "${packages}" | grep -s -q 'udftools' ] && firmware="${firmware} /usr/lib/efifs-x64/udf_x64.efi"
-    [ echo "${packages}" | grep -s -q 'xfsprogs' ] && firmware="${firmware} /usr/lib/efifs-x64/xfs_x64.efi"
-    firmware=$(echo "$firmware" | xargs echo)
+    if echo "${packages}" | grep -s -q 'btrfs-progs'; then firmware="${firmware} /usr/lib/efifs-x64/btrfs_x64.efi"; fi
+    if echo "${packages}" | grep -s -q 'exfatprogs'; then firmware="${firmware} /usr/lib/efifs-x64/exfat_x64.efi"; fi
+    if echo "${packages}" | grep -s -q 'f2fs-tools'; then firmware="${firmware} /usr/lib/efifs-x64/f2fs_x64.efi"; fi
+    if echo "${packages}" | grep -s -q 'e2fsprogs'; then firmware="${firmware} /usr/lib/efifs-x64/ext2_x64.efi"; fi
+    if echo "${packages}" | grep -s -q 'jfsutils'; then firmware="${firmware} /usr/lib/efifs-x64/jfs_x64.efi"; fi
+    if echo "${packages}" | grep -s -q 'nilfs-utils'; then firmware="${firmware} /usr/lib/efifs-x64/nilfs2_x64.efi"; fi
+    if echo "${packages}" | grep -s -q 'ntfs-3g'; then firmware="${firmware} /usr/lib/efifs-x64/ntfs_x64.efi"; fi
+    if echo "${packages}" | grep -s -q 'udftools'; then firmware="${firmware} /usr/lib/efifs-x64/udf_x64.efi"; fi
+    if echo "${packages}" | grep -s -q 'xfsprogs'; then firmware="${firmware} /usr/lib/efifs-x64/xfs_x64.efi"; fi
+    firmware=$(echo "${firmware}" | xargs echo)
 fi
 
 [ -z "${firmware}" ] && exit 0
