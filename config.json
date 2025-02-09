@@ -36,6 +36,7 @@
         "man-pages",
         "mesa",
         "sof-firmware",
+        "terminus-font",
         "vulkan-radeon"
     ],
     "parallel downloads": 4,

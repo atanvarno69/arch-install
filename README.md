@@ -11,14 +11,14 @@ Helpers to install and configure Arch linux.
 > [!NOTE]
 > The instructions assume a UK locale and British English. You can change that if you want.
 
-### Live environment
-
 Follow these steps of the [Arch Linux Installation Guide](https://wiki.archlinux.org/title/Installation_guide):
 
 * [1.1 Acquire an installation image](https://wiki.archlinux.org/title/Installation_guide#Acquire_an_installation_image)
 * [1.2 Verify signature](https://wiki.archlinux.org/title/Installation_guide#Verify_signature)
 * [1.3 Prepare an installation medium](https://wiki.archlinux.org/title/Installation_guide#Prepare_an_installation_medium)
 * [1.4 Boot the live environment](https://wiki.archlinux.org/title/Installation_guide#Boot_the_live_environment)
+
+### Live environment
 
 > [!TIP]
 > If at some point archiso doesn't have enough space available:
@@ -325,10 +325,11 @@ want to chroot into the system. Choose `Yes`.
 
 (See [3.8 Boot loader](https://wiki.archlinux.org/title/Installation_guide#Boot_loader).)
 
-Download and run the helper script to setup the bootloader and firmware:
+Download and run the helper script to setup the bootloader and firmware. The script also performs other system tweaks
+and downloads a copy of the tools for later use on the bootable system.
 
 ```sh
-curl -s https://raw.githubusercontent.com/atanvarno69/arch-install/refs/heads/main/bootloader.sh | sh
+curl -s https://raw.githubusercontent.com/atanvarno69/arch-install/refs/heads/main/init.sh | sh
 ```
 
 #### Reboot
@@ -368,6 +369,7 @@ The default packages, provided by the `config.json` file in the `packages` key, 
 | `man-pages`     | No       | As `man-db`.                                                                            |
 | `mesa`          | No       | The default target uses a modern AMD graphics card.                                     |
 | `sof-firmware`  | No       | Required firmware for most audio devices.                                               |
+| `terminus-font` | No       | Used to make the linux console look better. Won't break anything if not present.        |
 | `vulkan-radeon` | No       | As `mesa`.                                                                              |
 
 ### EFI filesystem drivers
