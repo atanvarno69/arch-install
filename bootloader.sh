@@ -42,7 +42,6 @@ EOF
 [ -f /boot/amd-ucode.img ] && ucode='/amd-ucode.img'
 for file in /boot/loader/entries/*; do
     [ -n "${ucode}" ] && sed -i "s|^initrd|initrd  ${ucode}\ninitrd|" "${file}"
-    mv "${file}" "/boot/loader/entries/$(basename "${file}" | sed 's/^.*linux/linux/')"
 done
 
 [ ! -d /efi ] && exit 0
@@ -52,17 +51,17 @@ mv /boot/loader/loader.conf /efi/loader/loader.conf
 pacman -S --asexplicit --needed --noconfirm efifs
 
 if [ pacman -Q efifs >/dev/null 2>&1 ]; then
-    explicit_packages=$(pacman -Qqe)
+    packages=$(pacman -Qq)
     firmware=''
-    [ echo "${explicit_packages}" | grep -s -q 'btrfs-progs' ] && firmware="${firmware} /usr/lib/efifs-x64/btrfs_x64.efi"
-    [ echo "${explicit_packages}" | grep -s -q 'exfatprogs' ] && firmware="${firmware} /usr/lib/efifs-x64/exfat_x64.efi"
-    [ echo "${explicit_packages}" | grep -s -q 'f2fs-tools' ] && firmware="${firmware} /usr/lib/efifs-x64/f2fs_x64.efi"
-    [ echo "${explicit_packages}" | grep -s -q 'e2fsprogs' ] && firmware="${firmware} /usr/lib/efifs-x64/ext2_x64.efi"
-    [ echo "${explicit_packages}" | grep -s -q 'jfsutils' ] && firmware="${firmware} /usr/lib/efifs-x64/jfs_x64.efi"
-    [ echo "${explicit_packages}" | grep -s -q 'nilfs-utils' ] && firmware="${firmware} /usr/lib/efifs-x64/nilfs2_x64.efi"
-    [ echo "${explicit_packages}" | grep -s -q 'ntfs-3g' ] && firmware="${firmware} /usr/lib/efifs-x64/ntfs_x64.efi"
-    [ echo "${explicit_packages}" | grep -s -q 'udftools' ] && firmware="${firmware} /usr/lib/efifs-x64/udf_x64.efi"
-    [ echo "${explicit_packages}" | grep -s -q 'xfsprogs' ] && firmware="${firmware} /usr/lib/efifs-x64/xfs_x64.efi"
+    [ echo "${packages}" | grep -s -q 'btrfs-progs' ] && firmware="${firmware} /usr/lib/efifs-x64/btrfs_x64.efi"
+    [ echo "${packages}" | grep -s -q 'exfatprogs' ] && firmware="${firmware} /usr/lib/efifs-x64/exfat_x64.efi"
+    [ echo "${packages}" | grep -s -q 'f2fs-tools' ] && firmware="${firmware} /usr/lib/efifs-x64/f2fs_x64.efi"
+    [ echo "${packages}" | grep -s -q 'e2fsprogs' ] && firmware="${firmware} /usr/lib/efifs-x64/ext2_x64.efi"
+    [ echo "${packages}" | grep -s -q 'jfsutils' ] && firmware="${firmware} /usr/lib/efifs-x64/jfs_x64.efi"
+    [ echo "${packages}" | grep -s -q 'nilfs-utils' ] && firmware="${firmware} /usr/lib/efifs-x64/nilfs2_x64.efi"
+    [ echo "${packages}" | grep -s -q 'ntfs-3g' ] && firmware="${firmware} /usr/lib/efifs-x64/ntfs_x64.efi"
+    [ echo "${packages}" | grep -s -q 'udftools' ] && firmware="${firmware} /usr/lib/efifs-x64/udf_x64.efi"
+    [ echo "${packages}" | grep -s -q 'xfsprogs' ] && firmware="${firmware} /usr/lib/efifs-x64/xfs_x64.efi"
     firmware=$(echo "$firmware" | xargs echo)
 fi
 
