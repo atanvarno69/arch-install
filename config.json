@@ -11,7 +11,7 @@
         "mountpoint": "/mnt"
     },
     "disk_encryption": null,
-    "hostname": "hostname",
+    "hostname": null,
     "kernels": [
         "linux-zen"
     ],
@@ -27,22 +27,15 @@
     "ntp": true,
     "packages": [
         "amd-ucode",
-        "archlinux-keyring",
         "base-devel",
         "e2fsprogs",
         "git",
-        "gnupg",
         "jq",
         "less",
-        "linux-firmware",
-        "linux-zen-headers",
         "man-db",
         "man-pages",
         "mesa",
-        "neovim",
-        "openssh",
         "sof-firmware",
-        "sudo",
         "vulkan-radeon"
     ],
     "parallel downloads": 4,

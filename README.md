@@ -81,8 +81,8 @@ Additional disks and/or partitions are not relevant for making the system bootab
 disks/partitions in the relevant steps of this, guide. If you're not sure when the relevant steps are, stick to the
 simple layout and worry about configuring additional partitions later, once you have a working system.
 
-Likewise, if you want to use `btrfs` formatted partitions, adapt this guide as necessary. If you're not sure how, don't
-use `btrfs`.
+Likewise, if you want to use filesystems other than the default FAT32 and ext4, adapt this guide as necessary. See the
+Appendix regarding EFI filesystem drivers.
 
 > [!IMPORTANT]
 > Do **not** setup a swap partition. These helpers will provide swap after installation.
@@ -218,17 +218,17 @@ Your ESP partition is the one with the listed type of "EFI System". Create the F
 mkfs.fat -F 32 -n ESP_FS <name>
 ```
 
+Your root partition is the one with the listed type of "Linux root (x86-64)". Create the ext4 filesystem in it:
+
+```sh
+mkfs.ext4 -L ROOT_FS <name>
+```
+
 Only if you used the advanced layout: Your XBOOTLDR partition is the one with the listed type of "Linux extended boot".
 Create the ext4 filesystem in it:
 
 ```sh
 mkfs.ext4 -L BOOT_FS <name>
-```
-
-Your root partition is the one with the listed type of "Linux root (x86-64)". Create the ext4 filesystem in it:
-
-```sh
-mkfs.ext4 -L ROOT_FS <name>
 ```
 
 #### Mount the file systems
@@ -278,17 +278,13 @@ the rest of the live environment process. In `archinstall` you use the arrow key
 ```sh
 archinstall --config https://raw.githubusercontent.com/atanvarno69/arch-install/refs/heads/main/config.json
 ```
-
-You **must** configure this section before continuing:
-
-* `Root password`
-
-You *should* configure this section before continuing:
+You **must** configure these settings before continuing:
 
 * `Hostname`
+* `Root password`
 
 No other settings *need* to be configured. If you are content with the defaults provided by these tools, proceed to
-install the system (skip to the end of this section). Otherwise read these notes on the various sections:
+install the system (skip to the end of this section). Otherwise, read these notes on the various sections:
 
 * `Archinstall language`: Free to customize.
 * `Locales`: Free to customize.
@@ -315,9 +311,9 @@ install the system (skip to the end of this section). Otherwise read these notes
 * `Network configuration`: You should *not* customize. The default configuration is a dependency for these tools to
   optionally install a desktop environment later. If you do not intend to have a desktop system, you can customize this.
   If you do, you will be responsible for getting your system connected to the internet.
-* `Additional packages`: Free to customize, but see the appendix to the guide for an explaination of the default
-  additional packages if you want to remove any. Adding additional packages here is not harmful, but it is probably
-  better to install them on your working system later.
+* `Additional packages`: Free to customize, but see the appendix for an explaination of the default additional packages
+  if you want to remove any. Adding additional packages here is not harmful, but it is probably better to install them
+  on your working system later.
 * `Optional respositories`: Free to customize.
 * `Timezone`: Free to customize.
 * `Automatic time sync (NTP)`: Free to customize.
@@ -356,3 +352,48 @@ reboot
 ## Appendix
 
 ### Default packages
+
+The default packages, provided by the `config.json` file in the `packages` key, correspond to the `archinstall` setting,
+`Additional packages`. This is an explaination for each of their inclusions:
+
+| Package         | Required | Notes                                                                                   |
+| :-------------- | :------- | :-------------------------------------------------------------------------------------- |
+| `amd-ucode`     | No       | The default target system uses an AMD processor. Replace with `intel-ucode` if you use Intel instead. |
+| `base-devel`    | No       | This is required to use the AUR and thus some of the extra modules from these tools.    |
+| `e2fsprogs`     | Yes / No | This provides ext4 utilities. This is required for a seperate `/efi` and `/boot`. See below EFI filesystem drivers explaination. |
+| `git`           | Yes      | It is not required during the initial installation process but must be present on your bootable system to get and use these tools. |
+| `jq`            | Yes      | It is not required during the initial installation process but must be present on your bootable system to use these tools. |
+| `less`          | No       | This is the only essential [Core utility](https://wiki.archlinux.org/title/Core_utilities#Essentials) not installed by default Arch Linux. |
+| `man-db`        | No       | Recommended by the [Installation guide](https://wiki.archlinux.org/title/Installation_guide#Install_essential_packages). Required to view `man` pages. |
+| `man-pages`     | No       | As `man-db`.                                                                            |
+| `mesa`          | No       | The default target uses a modern AMD graphics card.                                     |
+| `sof-firmware`  | No       | Required firmware for most audio devices.                                               |
+| `vulkan-radeon` | No       | As `mesa`.                                                                              |
+
+### EFI filesystem drivers
+
+In order to use a XBOOTLDR partition that contains a filesystem other than FAT32, the bootloader needs access to an
+appropriate driver on the ESP. The script run to install the bootloader checks whether various filesystem userspace
+utility packages are installed to decide what firmware to make available to the bootloader. Without an appropriate
+userspace utility package, the bootloader will not be given the driver to mount the XBOOTLDR and, hence, the system will be
+unable to boot.
+
+This is only relevant for installs using a XBOOTLDR partition. If your ESP is mounted at `/boot` (or your XBOOTLDR is
+formatted FAT32) you do not need to install a filesystem user utility package; although installing one for each
+filesystem type you use is recoomended (which can be done after initial installation and setup).
+
+| Filesystem | Userspace utility |
+| :--------- | :---------------- |
+| Btrfs      | `btrfs-progs`     |
+| FAT32      | `dosfstools`      |
+| exFAT      | `exfatprogs`      |
+| F2FS       | `f2fs-tools`      |
+| ext4       | `e2fsprogs`       |
+| JFS        | `jfsutils`        |
+| NILFS2     | `nilfs-utils`     |
+| NTFS       | `ntfs-3g`         |
+| UDF        | `udftools`        |
+| XFS        | `xfsprogs`        |
+
+These tools do not support using a XBOOTLDR partition with other filesystem types or remote mounts (like NFS or Samba).
+
