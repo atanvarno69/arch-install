@@ -96,7 +96,7 @@ fdisk -l
 Run `cgdisk` to create the partitions:
 
 ```sh
-cgdisk <disk name>
+cgdisk [disk name]
 ```
 
 If the disk does not have a partition table yet, ignore the "Warning! Non-GPT or damaged disk detected!" message from `cgdisk`, just hit `Enter` to proceed.
@@ -206,7 +206,7 @@ This table provides a useful reference for setting up additional partitions in `
 
 Discover the identifiers of each of your partitions.
 
-Discover and note each of your partitions' name. This will be in the form "<disk name>*something*":
+Discover and note each of your partitions' name. This will be in the form "[disk name]*something*":
 
 ```sh
 fdisk -l
@@ -215,20 +215,20 @@ fdisk -l
 Your ESP partition is the one with the listed type of "EFI System". Create the FAT32 filesystem in it:
 
 ```sh
-mkfs.fat -F 32 -n ESP_FS <name>
+mkfs.fat -F 32 -n ESP_FS [name]
 ```
 
 Your root partition is the one with the listed type of "Linux root (x86-64)". Create the ext4 filesystem in it:
 
 ```sh
-mkfs.ext4 -L ROOT_FS <name>
+mkfs.ext4 -L ROOT_FS [name]
 ```
 
 Only if you used the advanced layout: Your XBOOTLDR partition is the one with the listed type of "Linux extended boot".
 Create the ext4 filesystem in it:
 
 ```sh
-mkfs.ext4 -L BOOT_FS <name>
+mkfs.ext4 -L BOOT_FS [name]
 ```
 
 #### Mount the file systems
@@ -238,7 +238,7 @@ mkfs.ext4 -L BOOT_FS <name>
 Mount your root partition to `/mnt`:
 
 ```sh
-mount <name> /mnt
+mount [name] /mnt
 ```
 
 Follow **one** of the subsections [Simple layout] *or* [Advanced layout], corresponding to the choice you made when
@@ -252,7 +252,7 @@ Only mount filesystems on the same disk as the ESP (those from other disks can b
 Mount your ESP to `/mnt/boot`:
 
 ```sh
-mount --mkdir <name> /mnt/boot
+mount --mkdir [name] /mnt/boot
 ```
 
 ##### Advanced layout
@@ -260,13 +260,13 @@ mount --mkdir <name> /mnt/boot
 Mount your ESP to `/mnt/efi`:
 
 ```sh
-mount --mkdir <name> /mnt/efi
+mount --mkdir [name] /mnt/efi
 ```
 
 Mount your XBOOTLDR partition to `/mnt/boot`:
 
 ```sh
-mount --mkdir <name> /mnt/boot
+mount --mkdir [name] /mnt/boot
 ```
 
 #### Installation

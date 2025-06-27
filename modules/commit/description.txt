@@ -1,0 +1,1 @@
+Finalize configuration, apply it to the root user and remove this tool from the system.
